@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("URLPRISMA")
+}
+
+enum Cargo {
+  Colaborador
+  Técnico
+  Administrador
+}
+
+model Usuarios {
+    id Int @id @default(autoincrement()) @unique
+    email String @unique
+    senha String
+    id_empresa Int
+    empresa_fundadorId Int? @unique
+    cargo Cargo
+
+    empresa Empresas @relation("UsuariosDaEmpresa", fields: [id_empresa], references: [id])
+    Fundador Empresas? @relation("FundadorDaEmpresa", fields: [empresa_fundadorId], references: [id])
+}
+
+model Empresas {
+    id Int @id @default(autoincrement())
+    nome String
+    cnpj Float @unique
+
+    usuarios Usuarios[] @relation("UsuariosDaEmpresa")
+    usuarioFundador Usuarios? @relation("FundadorDaEmpresa")
+}
+
+model Chamado {
+    id Int @id @default(autoincrement())
+    titulo String
+    descricao String
+    usuarioId Int
+    empresaId Int
+}
