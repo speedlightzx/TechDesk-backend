@@ -1,4 +1,4 @@
-import { auth, authDTO } from "../dto/authDTO";
+import { auth, authDTO } from "../dto/auth/authDTO";
 import { validateLogin } from "../repositories/authRepository";
 import { HttpError } from "../utils/HttpError";
 import * as jwt from "jsonwebtoken";
@@ -10,7 +10,6 @@ export async function validateLoginServices(data: auth) {
 
   if (!validate.success) {
     const error = validate.error.issues[0].message;
-    console.log(validate.error.issues);
     throw new HttpError(error, 400);
   }
 

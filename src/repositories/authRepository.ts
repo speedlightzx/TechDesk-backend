@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { auth } from "../dto/authDTO";
+import { auth } from "../dto/auth/authDTO";
 const prisma = new PrismaClient();
 
 export async function validateLogin(data: auth) {

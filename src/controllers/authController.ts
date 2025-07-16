@@ -10,7 +10,6 @@ export async function validateLoginController(req:Request, res:Response) {
 
             res.status(200).json({message, token})
         } catch(err:any) {
-            console.log(err)
             res.status(err.code).json({ error: err.message})
         }
 }

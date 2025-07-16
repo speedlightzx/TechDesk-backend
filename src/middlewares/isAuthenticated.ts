@@ -14,7 +14,7 @@ export default function isAuthenticated(req: Request, res: Response, next: NextF
     const token = tokenHeader.split(" ")[1]
 
     try {
-        const decode = jwt.verify(token, secret)
+        jwt.verify(token, secret)
         next()
     } catch(err) {
         res.status(401).json({ error: "Token inválido ou expirado." })
