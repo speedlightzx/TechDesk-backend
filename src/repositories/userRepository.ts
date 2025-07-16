@@ -2,13 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import { createFuncionario } from "../dto/user/createFuncionarioDTO";
 const prisma = new PrismaClient();
 
-export async function createFuncionarioRepository(data: createFuncionario) {
+export async function createFuncionarioRepository(data: createFuncionario, id_empresa:number) {
   return await prisma.usuarios.create({
     data: {
       email: data.email,
       cargo: data.cargo,
       senha: data.senha,
-      id_empresa: data.id_empresa,
+      id_empresa: id_empresa,
     },
   });
 }
