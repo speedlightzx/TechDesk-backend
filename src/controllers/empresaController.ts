@@ -1,12 +1,15 @@
 import {Request, Response} from 'express'
-import cadastrarEmpresaService from '../services/empresaServices'
+import registerEmpresaService from '../services/empresaServices'
 
-export async function cadastrarEmpresaController(req:Request, res:Response)  {
+export async function registerEmpresaController(req:Request, res:Response)  {
     try {
-        const resultado = await cadastrarEmpresaService(req.body)
-        res.status(201).json({message: "Empresa criada com sucesso."})
+
+        await registerEmpresaService(req.body)
+        const message = "Empresa criada com sucesso."
+
+        res.status(201).json({message})
     } catch(err:any) {
         console.log(err)
-        res.status(err.code).json({ message: err.message})
+        res.status(err.code).json({ error: err.message})
     }
 }

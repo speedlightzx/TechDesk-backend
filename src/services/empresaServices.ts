@@ -1,8 +1,8 @@
 import { empresa, empresaDTO } from "../dto/empresaDTO"
-import cadastrarEmpresaRepository, { buscarEmailFundadorRepository, buscarEmpresaRepository } from "../repositories/empresaRepository"
+import { findEmailFundador, findEmpresa, registerEmpresaRepository } from "../repositories/empresaRepository"
 import { HttpError } from "../utils/HttpError"
 
-export default async function cadastrarEmpresaService(data:empresa) {
+export default async function registerEmpresaService(data:empresa) {
     const validate = empresaDTO.safeParse(data)
 
     if(!validate.success) {
@@ -11,11 +11,11 @@ export default async function cadastrarEmpresaService(data:empresa) {
         throw new HttpError(error, 400)
     }
 
-    const empresa = await buscarEmpresaRepository(data)
+    const empresa = await findEmpresa(data)
     if(empresa) throw new HttpError('Já existe uma empresa com esse CNPJ.', 409)
     
-    const emailFundador = await buscarEmailFundadorRepository(data)
+    const emailFundador = await findEmailFundador(data)
     if(emailFundador) throw new HttpError('Já existe um usuário com esse email.', 409)
 
-    return cadastrarEmpresaRepository(data)
+    return registerEmpresaRepository(data)
 }
