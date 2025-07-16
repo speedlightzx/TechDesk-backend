@@ -7,15 +7,11 @@ import * as jwt from "jsonwebtoken";
 const secret: any = process.env.JWT_SECRET;
 
 export default async function createFuncionarioServices(data: createFuncionario, token: string) {
-  const userInfo = jwt.decode(token, secret);
+  const userInfo:any = jwt.decode(token, secret);
+  if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
 
-  if (userInfo && typeof userInfo === "object" && "id" in userInfo) {
-    const admin = await findFuncionarioPerId(userInfo.id as number);
-
+    const admin = await findFuncionarioPerId(userInfo.id as number);    
     if (admin?.cargo != "Administrador") throw new HttpError( "Você não tem permissão para realizar essa ação.", 401);
-  } else {
-    throw new HttpError("Problema na autenticação.", 500);
-  }
 
   const validate = createFuncionarioDTO.safeParse(data);
 
@@ -27,7 +23,7 @@ export default async function createFuncionarioServices(data: createFuncionario,
   const funcionario = await findFuncionarioPerEmail(data);
   if (funcionario) throw new HttpError("Já existe um funcionário cadastrado com esse email.", 409);
 
-  const createFuncionario = await createFuncionarioRepository(data, userInfo.id as number);
+  const createFuncionario = await createFuncionarioRepository(data, userInfo.id_empresa);
 
   return createFuncionarioResponseDTO(createFuncionario);
 }

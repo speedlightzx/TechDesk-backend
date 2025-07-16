@@ -17,7 +17,7 @@ export async function validateLoginServices(data: auth) {
   if (!findUser) throw new HttpError("Credenciais inválidas.", 401);
 
   if (!secret) throw new HttpError("Problema na autenticação.", 500);
-  const token = jwt.sign({ id: findUser.id }, secret!, { expiresIn: "2h" });
+  const token = jwt.sign({ id: findUser.id, id_empresa: findUser.id_empresa }, secret!, { expiresIn: "2h" });
 
   return { findUser, token };
 }
