@@ -1,4 +1,5 @@
 import z from 'zod'
+import { cargoFuncionario } from '../../enums/cargoEnum'
 
 export const createFuncionarioDTO = z.object({
     email: z.string({ required_error: "Insira um email.", invalid_type_error: "Email inválido." }).email("Email inválido."),
@@ -9,5 +10,5 @@ export const createFuncionarioDTO = z.object({
 export interface createFuncionario {
     email: string,
     senha: string,
-    cargo: "Colaborador" | "Técnico" | "Administrador",
+    cargo: cargoFuncionario,
 }

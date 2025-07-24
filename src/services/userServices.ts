@@ -1,29 +1,36 @@
-import { createFuncionarioResponseDTO } from "../dto/user/createFuncionarioResponseDTO";
 import { createFuncionario, createFuncionarioDTO, } from "../dto/user/createFuncionarioDTO";
-import { createFuncionarioRepository, findFuncionarioPerEmail, findFuncionarioPerId } from "../repositories/userRepository";
+import { updateFuncionario, updateFuncionarioDTO } from "../dto/user/updateFuncionarioDTO";
+import { createFuncionarioRepository, findFuncionarioPerEmail, findFuncionarioPerId, updateFuncionarioRepository } from "../repositories/userRepository";
+import { decodeToken } from "../utils/decodeToken";
 import { HttpError } from "../utils/HttpError";
-import * as jwt from "jsonwebtoken";
+import { validateDTO } from "../utils/validateDTO";
 
-const secret: any = process.env.JWT_SECRET;
-
-export default async function createFuncionarioServices(data: createFuncionario, token: string) {
-  const userInfo:any = jwt.decode(token, secret);
+export async function createFuncionarioServices(data: createFuncionario, token: string) {
+  const userInfo = await decodeToken(token)
   if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
-
-    const admin = await findFuncionarioPerId(userInfo.id as number);    
-    if (admin?.cargo != "Administrador") throw new HttpError( "Você não tem permissão para realizar essa ação.", 401);
-
-  const validate = createFuncionarioDTO.safeParse(data);
-
-  if (!validate.success) {
-    const error = validate.error.issues[0].message;
-    throw new HttpError(error, 400);
-  }
+  
+  const validate = await validateDTO(createFuncionarioDTO, data)
+  if(validate != true) throw new HttpError(validate.error, 400)
 
   const funcionario = await findFuncionarioPerEmail(data);
   if (funcionario) throw new HttpError("Já existe um funcionário cadastrado com esse email.", 409);
 
-  const createFuncionario = await createFuncionarioRepository(data, userInfo.id_empresa);
+  return createFuncionarioRepository(data, userInfo.id_empresa);
+}
 
-  return createFuncionarioResponseDTO(createFuncionario);
+export async function updateFuncionarioServices(data: updateFuncionario, token: string) {
+  const userInfo = await decodeToken(token)
+  if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
+  
+  const validate = await validateDTO(updateFuncionarioDTO, data)
+  if(validate != true) throw new HttpError(validate.error, 400)
+
+  const user = await findFuncionarioPerId(userInfo.id)
+  const funcionario = await findFuncionarioPerEmail(data);
+
+  console.log(user, funcionario)
+  if(user?.id_empresa !== funcionario?.id_empresa) throw new HttpError("Você não tem permissão para realizar essa ação.", 401)
+  if (!funcionario) throw new HttpError("Não foi encontrado nenhum funcionário com esse email.", 403);
+
+  return updateFuncionarioRepository(data);
 }

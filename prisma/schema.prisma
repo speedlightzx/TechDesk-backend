@@ -13,6 +13,18 @@ enum Cargo {
   Administrador
 }
 
+enum SeveridadeChamado {
+  Baixo
+  Médio
+  Alto
+  Crítico
+}
+
+enum StatusChamado {
+  Resolvido
+  Pendente
+}
+
 model Usuarios {
     id Int @id @default(autoincrement()) @unique
     email String @unique
@@ -22,7 +34,8 @@ model Usuarios {
     cargo Cargo
 
     empresa Empresas @relation("UsuariosDaEmpresa", fields: [id_empresa], references: [id])
-    Fundador Empresas? @relation("FundadorDaEmpresa", fields: [empresa_fundadorId], references: [id])
+    fundador Empresas? @relation("FundadorDaEmpresa", fields: [empresa_fundadorId], references: [id])
+    Chamados Chamado[] @relation("ChamadosDoUsuario")
 }
 
 model Empresas {
@@ -32,12 +45,19 @@ model Empresas {
 
     usuarios Usuarios[] @relation("UsuariosDaEmpresa")
     usuarioFundador Usuarios? @relation("FundadorDaEmpresa")
+    chamados Chamado[] @relation("ChamadosDaEmpresa")
 }
 
 model Chamado {
     id Int @id @default(autoincrement())
     titulo String
     descricao String
+    severidade SeveridadeChamado
+    status StatusChamado @default(Pendente)
+    data DateTime @default(now())
     usuarioId Int
     empresaId Int
+
+    usuario Usuarios @relation("ChamadosDoUsuario", fields: [usuarioId], references: [id])
+    empresa Empresas @relation("ChamadosDaEmpresa", fields: [empresaId], references: [id])
 }

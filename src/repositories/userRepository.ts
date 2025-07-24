@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { createFuncionario } from "../dto/user/createFuncionarioDTO";
+import { updateFuncionario } from "../dto/user/updateFuncionarioDTO";
 const prisma = new PrismaClient();
 
 export async function createFuncionarioRepository(data: createFuncionario, id_empresa:number) {
@@ -10,7 +11,26 @@ export async function createFuncionarioRepository(data: createFuncionario, id_em
       senha: data.senha,
       id_empresa: id_empresa,
     },
+    select: {
+      email: true,
+      cargo: true
+    }
   });
+}
+
+export async function updateFuncionarioRepository(data:updateFuncionario) {
+  return await prisma.usuarios.update({ 
+    where: { email: data.email }, 
+    data: {
+      cargo: data.cargo,
+      senha: data.senha
+    },
+    select: {
+      email: true,
+      cargo: true,
+      senha: true
+    }
+  })
 }
 
 export async function findFuncionarioPerEmail(data: createFuncionario) {
