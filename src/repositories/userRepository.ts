@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { createFuncionario } from "../dto/user/createFuncionarioDTO";
 import { updateFuncionario } from "../dto/user/updateFuncionarioDTO";
+import { deleteFuncionario } from "../dto/user/deleteFuncionarioDTO";
 const prisma = new PrismaClient();
 
 export async function createFuncionarioRepository(data: createFuncionario, id_empresa:number) {
@@ -33,7 +34,11 @@ export async function updateFuncionarioRepository(data:updateFuncionario) {
   })
 }
 
-export async function findFuncionarioPerEmail(data: createFuncionario) {
+export async function deleteFuncionarioRepository(data: deleteFuncionario) {
+  return await prisma.usuarios.delete({ where: { email: data.email} })
+}
+
+export async function findFuncionarioPerEmail(data: Partial<createFuncionario>) {
   return await prisma.usuarios.findUnique({ where: { email: data.email } });
 }
 
