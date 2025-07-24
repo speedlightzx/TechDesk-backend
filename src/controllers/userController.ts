@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createFuncionarioServices, deleteFuncionarioServices, updateFuncionarioServices } from "../services/userServices";
+import { createFuncionarioServices, deleteFuncionarioServices, getFuncionarioServices, updateFuncionarioServices } from "../services/userServices";
 
 export async function createFuncionarioController(req: Request, res: Response) {
   try {
@@ -30,6 +30,18 @@ export async function deleteFuncionarioController(req: Request, res: Response) {
     await deleteFuncionarioServices(req.body, token)
 
     res.status(204).json()
+  }catch (err: any) {
+    res.status(err.code).json({ error: err.message })
+  }
+}
+
+export async function getFuncionariosController(req: Request, res: Response) {
+  try {
+    const token = req.headers.authorization?.split(" ")[1]!
+
+    const funcionarios = await getFuncionarioServices(token)
+
+    res.status(200).json({ funcionarios })
   }catch (err: any) {
     res.status(err.code).json({ error: err.message })
   }

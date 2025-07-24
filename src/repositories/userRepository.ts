@@ -34,6 +34,16 @@ export async function updateFuncionarioRepository(data:updateFuncionario) {
   })
 }
 
+export async function getFuncionariosRepository(id:number) {
+  return await prisma.usuarios.findMany({ 
+    where: { id_empresa: id },
+    select: {
+      email: true,
+      cargo: true
+    }
+   })
+}
+
 export async function deleteFuncionarioRepository(data: deleteFuncionario) {
   return await prisma.usuarios.delete({ where: { email: data.email} })
 }
