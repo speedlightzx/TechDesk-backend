@@ -5,9 +5,12 @@ import { validateLoginController } from './controllers/authController'
 import isAuthenticated from './middlewares/isAuthenticated'
 import { createFuncionarioController, deleteFuncionarioController, getFuncionariosController, updateFuncionarioController } from './controllers/userController'
 import isAdmin from './middlewares/isAdmin'
+import cors from "cors"
 
 dotenv.config()
 const app = express()
+
+app.use(cors())
 app.use(express.json())
 
 app.post('/createEmpresa', registerEmpresaController)
