@@ -6,12 +6,17 @@ import isAuthenticated from './middlewares/isAuthenticated'
 import { createFuncionarioController, deleteFuncionarioController, getFuncionariosController, updateFuncionarioController } from './controllers/userController'
 import isAdmin from './middlewares/isAdmin'
 import cors from "cors"
+import cookieparser from 'cookie-parser'
 
 dotenv.config()
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: "https://techdesk-new.vercel.app/",
+    credentials: true
+}))
 app.use(express.json())
+app.use(cookieparser())
 
 app.post('/createEmpresa', registerEmpresaController)
 //app.get('/empresaStatus', isAuthenticated) 

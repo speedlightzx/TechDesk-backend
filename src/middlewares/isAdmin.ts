@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import * as jwt from "jsonwebtoken"
 import { findFuncionarioPerId } from "../repositories/userRepository";
-import { HttpError } from "../utils/HttpError";
 
 const secret:any = process.env.JWT_SECRET
 
