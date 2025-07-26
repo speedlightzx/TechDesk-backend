@@ -12,7 +12,7 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-    origin: "https://techdesk-new.vercel.app/",
+    origin: "https://techdesk-new.vercel.app",
     credentials: true
 }))
 app.use(express.json())
