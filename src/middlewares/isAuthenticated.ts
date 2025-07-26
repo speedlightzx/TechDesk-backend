@@ -17,7 +17,8 @@ export default function isAuthenticated(req: Request, res: Response, next: NextF
         res.locals.user = decode
         next()
     } catch(err) {
-        res.clearCookie("session_token")
+        console.log(err)
+        //res.clearCookie("session_token")
         res.status(401).json({ error: "Token inválido ou expirado." })
     }
 }
