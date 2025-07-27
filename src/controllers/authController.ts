@@ -7,10 +7,12 @@ export async function validateLoginController(req:Request, res:Response) {
 
             const message = "Login realizado com sucesso."
             const token = resultado.token
-            console.log(req.cookies["session_token"])
 
             res.cookie('session_token', token, {
                 httpOnly: true,
+                secure: true,
+                sameSite: "none",
+                maxAge: 86400000
             })
 
             res.status(200).json({message, token})
