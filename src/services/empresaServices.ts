@@ -2,6 +2,7 @@ import { empresa, empresaDTO } from "../dto/empresa/empresaDTO";
 import { findEmailFundador, findEmpresa, registerEmpresaRepository,} from "../repositories/empresaRepository";
 import { HttpError } from "../utils/HttpError";
 import { validateDTO } from "../utils/validateDTO";
+import bcrypt from "bcryptjs"
 
 export default async function registerEmpresaService(data: empresa) {
   const validate = await validateDTO(empresaDTO, data)
@@ -12,6 +13,13 @@ export default async function registerEmpresaService(data: empresa) {
 
   const emailFundador = await findEmailFundador(data);
   if (emailFundador) throw new HttpError("Já existe um usuário com esse email.", 409);
+
+  const hash = await bcrypt.hash(data.senha, 10)
+
+  data = {
+    ...data,
+    senha: hash
+  }
 
   return registerEmpresaRepository(data);
 }
