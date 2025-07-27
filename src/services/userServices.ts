@@ -5,7 +5,7 @@ import { createFuncionarioRepository, deleteFuncionarioRepository, findFuncionar
 import { decodeToken } from "../utils/decodeToken";
 import { HttpError } from "../utils/HttpError";
 import { validateDTO } from "../utils/validateDTO";
-import bycrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs'
 
 export async function createFuncionarioServices(data: createFuncionario, token: string) {
   const userInfo = await decodeToken(token)
@@ -17,7 +17,7 @@ export async function createFuncionarioServices(data: createFuncionario, token: 
   const funcionario = await findFuncionarioPerEmail(data);
   if (funcionario) throw new HttpError("Já existe um funcionário cadastrado com esse email.", 409);
 
-  const hash = await bycrypt.hash(data.senha, 10)
+  const hash = await bcrypt.hash(data.senha, 10)
 
     data = {
     ...data,
