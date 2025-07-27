@@ -3,7 +3,7 @@ import { createFuncionarioServices, deleteFuncionarioServices, getFuncionarioSer
 
 export async function createFuncionarioController(req: Request, res: Response) {
   try {
-    const token = req.cookies.session_token
+    const token = req.headers.authorization!
     const user = await createFuncionarioServices(req.body, token);
 
     res.status(201).json({ user });
@@ -15,7 +15,7 @@ export async function createFuncionarioController(req: Request, res: Response) {
 
 export async function updateFuncionarioController(req: Request, res: Response) {
   try {
-    const token = req.cookies.session_token
+    const token = req.headers.authorization!
     await updateFuncionarioServices(req.body, token)
 
     res.status(204).json()
@@ -26,7 +26,7 @@ export async function updateFuncionarioController(req: Request, res: Response) {
 
 export async function deleteFuncionarioController(req: Request, res: Response) {
   try {
-    const token = req.cookies.session_token
+    const token = req.headers.authorization!
     await deleteFuncionarioServices(req.body, token)
 
     res.status(204).json()
@@ -37,7 +37,7 @@ export async function deleteFuncionarioController(req: Request, res: Response) {
 
 export async function getFuncionariosController(req: Request, res: Response) {
   try {
-    const token = req.cookies.session_token
+    const token = req.headers.authorization!
 
     const funcionarios = await getFuncionarioServices(token)
 
