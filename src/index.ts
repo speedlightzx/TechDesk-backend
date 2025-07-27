@@ -15,8 +15,15 @@ app.use(cors({
     origin: "https://techdesk-new.vercel.app",
     credentials: true
 }))
+
+app.options("*", cors({
+  origin: "https://techdesk-new.vercel.app",
+  credentials: true
+}));
+
 app.use(express.json())
 app.use(cookieparser())
+
 
 app.post('/createEmpresa', registerEmpresaController)
 //app.get('/empresaStatus', isAuthenticated) 
