@@ -11,6 +11,7 @@ enum Cargo {
   Colaborador
   Técnico
   Administrador
+  CEO
 }
 
 enum SeveridadeChamado {
@@ -27,6 +28,7 @@ enum StatusChamado {
 
 model Usuarios {
     id Int @id @default(autoincrement())
+    nome String
     email String @unique
     senha String
     id_empresa Int

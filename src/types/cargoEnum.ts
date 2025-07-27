@@ -1,5 +1,6 @@
 export enum cargoFuncionario {
    Colaborador = "Colaborador",
    Técnico = "Técnico",
-   Administrador = "Administrador"
+   Administrador = "Administrador",
+   CEO = "CEO"
 }

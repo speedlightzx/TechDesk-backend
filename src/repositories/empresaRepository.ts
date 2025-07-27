@@ -25,11 +25,12 @@ export async function registerEmpresaRepository(data: empresa) {
 
     await operacao.usuarios.create({
       data: {
+        nome: data.email.split("@")[0],
         email: data.email,
         senha: data.senha,
         id_empresa: empresa.id,
         empresa_fundadorId: empresa.id,
-        cargo: "Administrador",
+        cargo: "CEO",
       },
     });
   });

@@ -15,7 +15,6 @@ export default async function registerEmpresaService(data: empresa) {
   if (emailFundador) throw new HttpError("Já existe um usuário com esse email.", 409);
 
   const hash = await bcrypt.hash(data.senha, 10)
-
   data = {
     ...data,
     senha: hash

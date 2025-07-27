@@ -3,7 +3,7 @@ import express from 'express'
 import { registerEmpresaController } from './controllers/empresaController'
 import { validateLoginController } from './controllers/authController'
 import isAuthenticated from './middlewares/isAuthenticated'
-import { createFuncionarioController, deleteFuncionarioController, getFuncionariosController, updateFuncionarioController } from './controllers/userController'
+import { createFuncionarioController, deleteFuncionarioController, getFuncionariosController, myAccountController, updateFuncionarioController } from './controllers/userController'
 import isAdmin from './middlewares/isAdmin'
 import cors from "cors"
 import cookieparser from 'cookie-parser'
@@ -24,6 +24,8 @@ app.post('/createFuncionario', isAuthenticated, isAdmin, createFuncionarioContro
 app.put('/updateFuncionario', isAuthenticated, isAdmin, updateFuncionarioController) 
 app.delete('/deleteFuncionario', isAuthenticated, isAdmin, deleteFuncionarioController)
 app.get('/getFuncionarios', isAuthenticated, getFuncionariosController)
+
+app.get('/myAccount', isAuthenticated, myAccountController)
 
 app.listen(8000, () => {
     console.log('Servidor aberto')

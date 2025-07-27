@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 export async function createFuncionarioRepository(data: createFuncionario, id_empresa:number) {
   return await prisma.usuarios.create({
     data: {
+      nome: data.email.split("@")[0],
       email: data.email,
       cargo: data.cargo,
       senha: data.senha,
@@ -28,8 +29,7 @@ export async function updateFuncionarioRepository(data:updateFuncionario) {
     },
     select: {
       email: true,
-      cargo: true,
-      senha: true
+      cargo: true
     }
   })
 }
@@ -42,6 +42,27 @@ export async function getFuncionariosRepository(id:number) {
       cargo: true
     }
    })
+}
+
+export async function myAccountRepository(id:number) {
+  return await prisma.usuarios.findUnique({
+    where: { id: id },
+    select: {
+      email: true,
+      cargo: true,
+      empresa: {
+        select: {
+          nome: true
+        }
+      },
+      fundador: {
+        select: {
+          nome: true,
+          cnpj: true
+        }
+      }
+    }
+  })
 }
 
 export async function deleteFuncionarioRepository(data: deleteFuncionario) {

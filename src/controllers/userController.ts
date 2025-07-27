@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { createFuncionarioServices, deleteFuncionarioServices, getFuncionarioServices, updateFuncionarioServices } from "../services/userServices";
+import { createFuncionarioServices, deleteFuncionarioServices, getFuncionarioServices, myAccountServices, updateFuncionarioServices } from "../services/userServices";
+import { myAccountRepository } from "../repositories/userRepository";
 
 export async function createFuncionarioController(req: Request, res: Response) {
   try {
@@ -43,6 +44,17 @@ export async function getFuncionariosController(req: Request, res: Response) {
 
     res.status(200).json({ funcionarios })
   }catch (err: any) {
+    res.status(err.code).json({ error: err.message })
+  }
+}
+
+export async function myAccountController(req:Request, res:Response) {
+  try {
+    const token = req.headers.authorization!
+    const user = await myAccountServices(token)
+    res.status(200).json({ user })
+
+  } catch(err:any) {
     res.status(err.code).json({ error: err.message })
   }
 }
