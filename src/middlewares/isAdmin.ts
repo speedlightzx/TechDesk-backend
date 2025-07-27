@@ -7,7 +7,7 @@ export default async function isAdmin(req: Request, res: Response, next: NextFun
     const user = res.locals.user
 
     const admin = await findFuncionarioPerId(user.id as number);    
-    if (admin?.cargo != "Administrador") {
+    if (admin?.cargo.includes("Administrador") || admin?.cargo.includes("CEO")) {
         res.status(403).json({ error: "Você não tem permissão para realizar essa ação."});
         return
     }
