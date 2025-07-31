@@ -37,14 +37,15 @@ export async function updateFuncionarioServices(data: updateFuncionario, token: 
   const user = await findFuncionarioPerId(userInfo.id)
   const funcionario = await findFuncionarioPerEmail(data);
 
-  console.log(user, funcionario)
   if(user?.id_empresa !== funcionario?.id_empresa) throw new HttpError("Você não tem permissão para realizar essa ação.", 403)
   if (!funcionario) throw new HttpError("Não foi encontrado nenhum funcionário com esse email.", 404);
-
-  const hash = await bcrypt.hash(data.senha, 10)
-  data = {
-    ...data,
-    senha: hash
+  
+  if(data.senha) {
+    const hash = await bcrypt.hash(data.senha, 10)
+    data = {
+      ...data,
+      senha: hash
+    }
   }
 
   return updateFuncionarioRepository(data);

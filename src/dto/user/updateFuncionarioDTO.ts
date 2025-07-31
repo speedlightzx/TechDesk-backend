@@ -27,6 +27,6 @@ export const updateFuncionarioDTO = z
 
 export interface updateFuncionario {
   email: string;
-  senha: string;
+  senha?: string;
   cargo: cargoFuncionario;
 }
