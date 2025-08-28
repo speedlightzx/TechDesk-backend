@@ -1,10 +1,11 @@
 import { empresa, empresaDTO } from "../dto/empresa/empresaDTO";
-import { findEmailFundador, findEmpresa, registerEmpresaRepository,} from "../repositories/empresaRepository";
+import { findEmailFundador, findEmpresa, getEmpresaStatusRepository, registerEmpresaRepository,} from "../repositories/empresaRepository";
+import { decodeToken } from "../utils/decodeToken";
 import { HttpError } from "../utils/HttpError";
 import { validateDTO } from "../utils/validateDTO";
 import bcrypt from "bcryptjs"
 
-export default async function registerEmpresaService(data: empresa) {
+export async function registerEmpresaService(data: empresa) {
   const validate = await validateDTO(empresaDTO, data)
   if(validate != true) throw new HttpError(validate.error, 400)
 
@@ -21,4 +22,11 @@ export default async function registerEmpresaService(data: empresa) {
   }
 
   return registerEmpresaRepository(data);
+}
+
+export async function getEmpresaStatusService(token: string) {
+  const userInfo = await decodeToken(token)
+  if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
+
+  return getEmpresaStatusRepository(userInfo.id_empresa);
 }

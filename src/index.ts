@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import express from 'express'
-import { registerEmpresaController } from './controllers/empresaController'
+import { getEmpresaStatusController, registerEmpresaController } from './controllers/empresaController'
 import { validateLoginController } from './controllers/authController'
 import isAuthenticated from './middlewares/isAuthenticated'
 import { createFuncionarioController, deleteFuncionarioController, getFuncionariosController, getMyAccountController, putMyAccountController, updateFuncionarioController } from './controllers/userController'
@@ -19,7 +19,7 @@ app.use(cookieparser())
 
 
 app.post('/createEmpresa', registerEmpresaController)
-//app.get('/empresaStatus', isAuthenticated) 
+app.get('/empresaStatus', isAuthenticated, getEmpresaStatusController) 
 
 app.post('/login', validateLoginController)
 app.post('/createFuncionario', isAuthenticated, isAdmin, createFuncionarioController)
