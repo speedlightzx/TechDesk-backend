@@ -1,7 +1,8 @@
 import { createFuncionario, createFuncionarioDTO, } from "../dto/user/createFuncionarioDTO";
 import { deleteFuncionario, deleteFuncionarioDTO } from "../dto/user/deleteFuncionarioDTO";
+import { putMyAccount } from "../dto/user/putMyAccountDTO";
 import { updateFuncionario, updateFuncionarioDTO } from "../dto/user/updateFuncionarioDTO";
-import { createFuncionarioRepository, deleteFuncionarioRepository, findFuncionarioPerEmail, findFuncionarioPerId, getFuncionariosRepository, myAccountRepository, updateFuncionarioRepository } from "../repositories/userRepository";
+import { createFuncionarioRepository, deleteFuncionarioRepository, findFuncionarioPerEmail, findFuncionarioPerId, getFuncionariosRepository, getMyAccountRepository, putMyAccountRepository, updateFuncionarioRepository } from "../repositories/userRepository";
 import { decodeToken } from "../utils/decodeToken";
 import { HttpError } from "../utils/HttpError";
 import { validateDTO } from "../utils/validateDTO";
@@ -75,9 +76,24 @@ export async function getFuncionarioServices(token: string) {
   return getFuncionariosRepository(userInfo.id_empresa);
 }
 
-export async function myAccountServices(token: string) {
+export async function getMyAccountServices(token: string) {
   const userInfo = await decodeToken(token)
   if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
 
-  return myAccountRepository(userInfo.id);
+  return getMyAccountRepository(userInfo.id);
+}
+
+export async function putMyAccountServices(data:putMyAccount, token: string) {
+  const userInfo = await decodeToken(token)
+  if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
+
+  if(data.senha) {
+    const hash = await bcrypt.hash(data.senha, 10)
+    data = {
+      ...data,
+      senha: hash
+    }
+  }
+
+  return putMyAccountRepository(data, userInfo.id);
 }

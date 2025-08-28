@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { createFuncionario } from "../dto/user/createFuncionarioDTO";
 import { updateFuncionario } from "../dto/user/updateFuncionarioDTO";
 import { deleteFuncionario } from "../dto/user/deleteFuncionarioDTO";
+import { putMyAccount } from "../dto/user/putMyAccountDTO";
 const prisma = new PrismaClient();
 
 export async function createFuncionarioRepository(data: createFuncionario, id_empresa:number) {
@@ -44,7 +45,7 @@ export async function getFuncionariosRepository(id:number) {
    })
 }
 
-export async function myAccountRepository(id:number) {
+export async function getMyAccountRepository(id:number) {
   return await prisma.usuarios.findUnique({
     where: { id: id },
     select: {
@@ -61,6 +62,16 @@ export async function myAccountRepository(id:number) {
           cnpj: true
         }
       }
+    }
+  })
+}
+
+export async function putMyAccountRepository(data:putMyAccount, id:number) {
+  await prisma.usuarios.update({
+    where: { id: id },
+    data: {
+      nome: data.nome,
+      senha: data.senha
     }
   })
 }
