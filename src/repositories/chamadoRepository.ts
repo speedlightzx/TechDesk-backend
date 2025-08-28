@@ -20,3 +20,16 @@ export async function createChamadoRepository(data: createChamado, idEmpresa: nu
         }
     })
 }
+
+export async function getMyChamadosRepository(id: number) {
+    return await prisma.chamados.findMany({
+        where: { usuarioId: id },
+        select: {
+            titulo: true,
+            descricao: true,
+            severidade: true,
+            status: true,
+            data: true
+        }
+    })
+}
