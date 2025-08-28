@@ -37,7 +37,7 @@ model Usuarios {
 
     empresa Empresas @relation("UsuariosDaEmpresa", fields: [id_empresa], references: [id])
     fundador Empresas? @relation("FundadorDaEmpresa", fields: [empresa_fundadorId], references: [id])
-    Chamados Chamado[] @relation("ChamadosDoUsuario")
+    Chamados Chamados[] @relation("ChamadosDoUsuario")
 }
 
 model Empresas {
@@ -47,10 +47,10 @@ model Empresas {
 
     usuarios Usuarios[] @relation("UsuariosDaEmpresa")
     usuarioFundador Usuarios? @relation("FundadorDaEmpresa")
-    chamados Chamado[] @relation("ChamadosDaEmpresa")
+    chamados Chamados[] @relation("ChamadosDaEmpresa")
 }
 
-model Chamado {
+model Chamados {
     id Int @id @default(autoincrement())
     titulo String
     descricao String
