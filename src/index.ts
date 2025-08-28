@@ -7,7 +7,8 @@ import { createFuncionarioController, deleteFuncionarioController, getFuncionari
 import isAdmin from './middlewares/isAdmin'
 import cors from "cors"
 import cookieparser from 'cookie-parser'
-import { createChamadoController, getMyChamadosController } from './controllers/chamadoController'
+import { createChamadoController, getAllChamadosController, getMyChamadosController } from './controllers/chamadoController'
+import isTecnicoOrHigher from './middlewares/isTecnicoOrHigher'
 
 dotenv.config()
 const app = express()
@@ -29,8 +30,9 @@ app.get('/getFuncionarios', isAuthenticated, getFuncionariosController)
 app.get('/myAccount', isAuthenticated, getMyAccountController)
 app.put('/myAccount', isAuthenticated, putMyAccountController)
 
-app.post('/newChamado', isAuthenticated, createChamadoController)
+app.post('/createChamado', isAuthenticated, createChamadoController)
 app.get('/myChamados', isAuthenticated, getMyChamadosController)
+app.get('/allChamados', isAuthenticated, isTecnicoOrHigher, getAllChamadosController)
 
 app.listen(8000, () => {
     console.log('Servidor aberto')

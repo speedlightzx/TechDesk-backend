@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createChamadoServices, getMyChamadosServices } from "../services/chamadoServices";
+import { createChamadoServices, getAllChamadosServices, getMyChamadosServices } from "../services/chamadoServices";
 
 export async function createChamadoController(req: Request, res: Response) {
   try {
@@ -16,6 +16,17 @@ export async function getMyChamadosController(req: Request, res: Response) {
   try {
     const token = req.headers.authorization!
     const chamadosList = await getMyChamadosServices(token)
+
+    res.status(200).json({ chamadosList });
+  } catch (err: any) {
+    res.status(err.code).json({ error: err.message });
+  }
+}
+
+export async function getAllChamadosController(req: Request, res: Response) {
+  try {
+    const token = req.headers.authorization!
+    const chamadosList = await getAllChamadosServices(token)
 
     res.status(200).json({ chamadosList });
   } catch (err: any) {

@@ -8,7 +8,6 @@ export async function createFuncionarioController(req: Request, res: Response) {
 
     res.status(201).json({ user });
   } catch (err: any) {
-    console.log(err)
     res.status(err.code).json({ error: err.message });
   }
 }

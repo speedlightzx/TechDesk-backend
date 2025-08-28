@@ -1,5 +1,5 @@
 import { createChamado, createChamadoDTO } from "../dto/chamado/createChamadoDTO";
-import { createChamadoRepository, getMyChamadosRepository } from "../repositories/chamadoRepository";
+import { createChamadoRepository, getAllChamadosRepository, getMyChamadosRepository } from "../repositories/chamadoRepository";
 import { decodeToken } from "../utils/decodeToken";
 import { HttpError } from "../utils/HttpError";
 import { validateDTO } from "../utils/validateDTO";
@@ -19,4 +19,11 @@ export async function getMyChamadosServices(token: string) {
   if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
 
   return getMyChamadosRepository(userInfo.id);
+}
+
+export async function getAllChamadosServices(token: string) {
+  const userInfo = await decodeToken(token)
+  if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
+
+  return getAllChamadosRepository(userInfo.id_empresa);
 }
