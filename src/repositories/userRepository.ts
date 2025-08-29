@@ -40,6 +40,7 @@ export async function getFuncionariosRepository(id:number) {
     where: { id_empresa: id },
     select: {
       email: true,
+      nome: true,
       cargo: true
     }
    })
