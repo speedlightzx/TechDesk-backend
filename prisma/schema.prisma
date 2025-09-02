@@ -35,8 +35,8 @@ model Usuarios {
     empresa_fundadorId Int? @unique
     cargo Cargo
 
-    empresa Empresas @relation("UsuariosDaEmpresa", fields: [id_empresa], references: [id])
-    fundador Empresas? @relation("FundadorDaEmpresa", fields: [empresa_fundadorId], references: [id])
+    empresa Empresas @relation("UsuariosDaEmpresa", fields: [id_empresa], references: [id], onDelete: Cascade)
+    fundador Empresas? @relation("FundadorDaEmpresa", fields: [empresa_fundadorId], references: [id], onDelete: Cascade)
     Chamados Chamados[] @relation("ChamadosDoUsuario")
 }
 
@@ -60,6 +60,6 @@ model Chamados {
     usuarioId Int
     empresaId Int
 
-    usuario Usuarios @relation("ChamadosDoUsuario", fields: [usuarioId], references: [id])
-    empresa Empresas @relation("ChamadosDaEmpresa", fields: [empresaId], references: [id])
+    usuario Usuarios @relation("ChamadosDoUsuario", fields: [usuarioId], references: [id], onDelete: Cascade)
+    empresa Empresas @relation("ChamadosDaEmpresa", fields: [empresaId], references: [id], onDelete: Cascade)
 }

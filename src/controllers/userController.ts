@@ -75,6 +75,7 @@ export async function deleteMyAccountController(req:Request, res:Response) {
     res.status(204).end()
 
   } catch(err:any) {
+    console.log(err)
     res.status(err.code).json({ error: err.message })
   }
 }

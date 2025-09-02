@@ -77,8 +77,8 @@ export async function putMyAccountRepository(data:putMyAccount, id:number) {
   })
 }
 
-export async function deleteMyAccountRepository(id:number) {
-  await prisma.usuarios.delete({ where: { id: id } })
+export async function deleteMyAccountRepository(email: string) {
+  return await prisma.usuarios.delete({ where: { email: email } })
 }
 
 export async function deleteFuncionarioRepository(data: deleteFuncionario) {
