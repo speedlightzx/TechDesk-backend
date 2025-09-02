@@ -29,6 +29,7 @@ app.get('/getFuncionarios', isAuthenticated, getFuncionariosController)
 
 app.get('/myAccount', isAuthenticated, getMyAccountController)
 app.put('/myAccount', isAuthenticated, putMyAccountController)
+app.delete('/myAccount', isAuthenticated, deleteFuncionarioController)
 
 app.post('/createChamado', isAuthenticated, createChamadoController)
 app.get('/myChamados', isAuthenticated, getMyChamadosController)

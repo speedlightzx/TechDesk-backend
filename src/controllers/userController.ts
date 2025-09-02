@@ -67,3 +67,14 @@ export async function putMyAccountController(req:Request, res:Response) {
     res.status(err.code).json({ error: err.message })
   }
 }
+
+export async function deleteMyAccountController(req:Request, res:Response) {
+  try {
+    const token = req.headers.authorization!
+    await deleteFuncionarioServices(req.body, token)
+    res.status(204).end()
+
+  } catch(err:any) {
+    res.status(err.code).json({ error: err.message })
+  }
+}

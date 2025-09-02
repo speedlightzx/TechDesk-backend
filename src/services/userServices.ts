@@ -2,7 +2,7 @@ import { createFuncionario, createFuncionarioDTO, } from "../dto/user/createFunc
 import { deleteFuncionario, deleteFuncionarioDTO } from "../dto/user/deleteFuncionarioDTO";
 import { putMyAccount } from "../dto/user/putMyAccountDTO";
 import { updateFuncionario, updateFuncionarioDTO } from "../dto/user/updateFuncionarioDTO";
-import { createFuncionarioRepository, deleteFuncionarioRepository, findFuncionarioPerEmail, findFuncionarioPerId, getFuncionariosRepository, getMyAccountRepository, putMyAccountRepository, updateFuncionarioRepository } from "../repositories/userRepository";
+import { createFuncionarioRepository, deleteFuncionarioRepository, deleteMyAccountRepository, findFuncionarioPerEmail, findFuncionarioPerId, getFuncionariosRepository, getMyAccountRepository, putMyAccountRepository, updateFuncionarioRepository } from "../repositories/userRepository";
 import { decodeToken } from "../utils/decodeToken";
 import { HttpError } from "../utils/HttpError";
 import { validateDTO } from "../utils/validateDTO";
@@ -96,4 +96,11 @@ export async function putMyAccountServices(data:putMyAccount, token: string) {
   }
 
   return putMyAccountRepository(data, userInfo.id);
+}
+
+export async function deleteMyAccountServices(data:putMyAccount, token: string) {
+  const userInfo = await decodeToken(token)
+  if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
+
+  return deleteMyAccountRepository(userInfo.id)
 }
