@@ -3,7 +3,7 @@ import express from 'express'
 import { getEmpresaStatusController, registerEmpresaController } from './controllers/empresaController'
 import { validateLoginController } from './controllers/authController'
 import isAuthenticated from './middlewares/isAuthenticated'
-import { createFuncionarioController, deleteFuncionarioController, getFuncionariosController, getMyAccountController, putMyAccountController, updateFuncionarioController } from './controllers/userController'
+import { createFuncionarioController, deleteFuncionarioController, deleteMyAccountController, getFuncionariosController, getMyAccountController, putMyAccountController, updateFuncionarioController } from './controllers/userController'
 import isAdmin from './middlewares/isAdmin'
 import cors from "cors"
 import cookieparser from 'cookie-parser'
@@ -32,7 +32,7 @@ app.get('/getFuncionarios', isAuthenticated, getFuncionariosController)
 
 app.get('/myAccount', isAuthenticated, getMyAccountController)
 app.put('/myAccount', isAuthenticated, putMyAccountController)
-app.delete('/myAccount', isAuthenticated, deleteFuncionarioController)
+app.delete('/myAccount', isAuthenticated, deleteMyAccountController)
 
 app.post('/createChamado', isAuthenticated, createChamadoController)
 app.get('/myChamados', isAuthenticated, getMyChamadosController)
