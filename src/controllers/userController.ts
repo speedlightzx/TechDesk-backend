@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createFuncionarioServices, deleteFuncionarioServices, getFuncionarioServices, getMyAccountServices, putMyAccountServices, updateFuncionarioServices } from "../services/userServices";
+import { createFuncionarioServices, deleteFuncionarioServices, deleteMyAccountServices, getFuncionarioServices, getMyAccountServices, putMyAccountServices, updateFuncionarioServices } from "../services/userServices";
 
 export async function createFuncionarioController(req: Request, res: Response) {
   try {
@@ -71,7 +71,7 @@ export async function putMyAccountController(req:Request, res:Response) {
 export async function deleteMyAccountController(req:Request, res:Response) {
   try {
     const token = req.headers.authorization!
-    await deleteFuncionarioServices(req.body, token)
+    await deleteMyAccountServices(token)
     res.status(204).end()
 
   } catch(err:any) {

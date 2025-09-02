@@ -98,7 +98,7 @@ export async function putMyAccountServices(data:putMyAccount, token: string) {
   return putMyAccountRepository(data, userInfo.id);
 }
 
-export async function deleteMyAccountServices(data:putMyAccount, token: string) {
+export async function deleteMyAccountServices(token: string) {
   const userInfo = await decodeToken(token)
   if(!userInfo) throw new HttpError("Problema na autenticação.", 500)
 
