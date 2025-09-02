@@ -17,6 +17,9 @@ app.use(cors())
 app.use(express.json())
 app.use(cookieparser())
 
+app.get('/auth', isAuthenticated, (req, res) => {
+    res.status(200).end()
+})
 
 app.post('/createEmpresa', registerEmpresaController)
 app.get('/empresaStatus', isAuthenticated, getEmpresaStatusController) 
